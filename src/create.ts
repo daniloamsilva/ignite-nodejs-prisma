@@ -28,19 +28,27 @@ async function main() {
   //   }
   // });
 
-  const result = await prisma.coursesModules.create({
-    data: {
+  // const result = await prisma.courses.findMany({
+  //   include: {
+  //     modules: true
+  //   }
+  // })
+
+  const result = await prisma.coursesModules.findMany({
+    select: {
       course: {
-        create: {
-          name: 'Course 02',
-          duration: 400,
-          description: 'Course 02 description'
-        },
+        select: {
+          id: true,
+          name: true,
+          duration: true,
+          description: true
+        }
       },
-      modules: {
-        create: {
-          name: 'Module 03',
-          description: 'Module 03 description'
+      module: {
+        select: {
+          id: true,
+          name: true,
+          description: true
         }
       }
     }
