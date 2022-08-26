@@ -34,25 +34,38 @@ async function main() {
   //   }
   // })
 
-  const result = await prisma.coursesModules.findMany({
-    select: {
-      course: {
-        select: {
-          id: true,
-          name: true,
-          duration: true,
-          description: true
-        }
+  // const result = await prisma.coursesModules.findMany({
+  //   select: {
+  //     course: {
+  //       select: {
+  //         id: true,
+  //         name: true,
+  //         duration: true,
+  //         description: true
+  //       }
+  //     },
+  //     module: {
+  //       select: {
+  //         id: true,
+  //         name: true,
+  //         description: true
+  //       }
+  //     }
+  //   }
+  // })
+
+  const result = await prisma.courses.findMany({
+    where: {
+      name: {
+        contains: 'React'
       },
-      module: {
-        select: {
-          id: true,
-          name: true,
-          description: true
+      AND: {
+        duration: {
+          lt: 350
         }
       }
     }
-  })
+  });
 
   console.log(result);
 }
