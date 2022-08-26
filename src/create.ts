@@ -1,20 +1,13 @@
-import { PrismaClient } from "@prisma/client";
+import { Prisma, PrismaClient, Modules } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
 async function main() {
-  const take = 2;
-  let exist = true;
-  let skip = 0;
+  const result = await prisma.$queryRaw<Modules[]>(
+    Prisma.sql`SELECT * FROM modules`
+  );
 
-  while(exist) {
-    const result = await prisma.courses.findMany({skip, take});
-    if(!result.length) exist = false;
-    skip += take;
-
-    console.log(result);
-    console.log("=========================");
-  }
+  result.map(module => console.log(module.name));
 }
 
 main();
